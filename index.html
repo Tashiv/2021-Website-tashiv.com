@@ -1,10 +1,636 @@
-<html>
-	<header>
-		<title>
-			Tashiv
-		</title>
-	</header>
-	<body>
-		Hello world :)
+<!DOCTYPE html>
+<html lang="en">
+	<!-------------->
+	<!--- Header --->
+	<!-------------->
+	<head>	
+		<!--------------------->
+		<!--- Site Metadata --->
+		<!--------------------->
+		<title>Tashiv</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--------------->
+		<!--- Styling --->
+		<!--------------->
+		<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/style-theme.css">
+	</head>
+	<!------------>
+	<!--- Body --->
+	<!------------>
+	<body class="color-outline fill">
+        <!-------------->
+        <!--- Navbar --->
+        <!-------------->
+        <div class="navbar" id="navbar">
+            <a id="page-dev" class="color-text-light">Developer</a>
+            <a id="page-designer" class="color-lv1 color-text-dark">Designer</a>
+            <a id="page-photographer" class="color-lv1 color-text-dark">Photographer</a>
+        </div>
+        <!-------------->
+        <!--- Banner --->
+        <!-------------->
+		<div id="banner" class="banner">
+            <div class="banner-shade"></div>
+        </div>
+        <!----------------->
+        <!--- Showcases --->
+        <!----------------->
+        <div id="showcases" class="container-fluid justify-content-center showcases color-outline">
+            <!----------------------->
+            <!--- Showcase Border --->
+            <!----------------------->
+            <div style="color: #FFF; text-align: center; vertical-align: middle; height: 30px;"><i>Work in progress - 20+ exciting projects still being added to this site.</i></div>
+            <div class="showcase-border color-accent-dim"></div>
+            <!---------------------->
+            <!--- Showcase: Code --->
+            <!---------------------->
+            <div id="showcase-code" class="showcase-code">
+                
+                <!--------------------->
+                <!--- Code Category --->
+                <!--------------------->
+                <div class="showcase-code-category">
+                    <!---------------------->
+                    <!--- Category Title --->
+                    <!---------------------->
+                    <div class="showcase-code-category-title">
+                        <h1 class="color-accent color-text">
+                            Simulations
+                        </h1>
+                    </div>
+                    <!------------------------->
+                    <!--- Category Projects --->
+                    <!------------------------->
+                    <div class="showcase-code-category-cards color-lv0 icon-tiles">
+                        <div class="row justify-content-left">    
+                            <div class="card code-card color-lv1">
+                                <div class="code-tabs">
+                                    <div class="code-tab selected color-accent">
+                                        <div class="icon-tab-overview"></div>
+                                    </div>
+                                    <div class="code-tab color-lv2">
+                                        <div class="icon-tab-problem"></div>
+                                    </div>
+                                    <div class="code-tab color-lv2">
+                                        <div class="icon-tab-solution"></div>
+                                    </div>
+                                    <div class="code-tab color-lv2">
+                                        <div class="icon-tab-lessons"></div>
+                                    </div>
+                                    <div class="code-tab color-lv2">
+                                        <div class="icon-tab-links"></div>
+                                    </div>
+                                </div>
+                                <img class="code-banner" src="images/header.jpg">
+                                <div class="code-body">
+                                    <div class="code-title scroll-fix">
+                                        Game of Life
+                                    </div>
+                                    <div class="code-text">
+                                        This is text
+                                        <br/>
+                                        <a href="#">test</a>
+                                    </div>    
+                                    <div class="code-footer scroll-fix color-lv1">
+                                        <a class="color-accent color-text">DEV</a>
+                                        <a class="color-accent color-text">2019</a>
+                                        <a class="color-accent color-text">Android</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</body>
+	<!--------------------------->
+	<!--- Javascript Libraries--->
+	<!--------------------------->
+	<script type="text/javascript" src="js/jquery/jquery-3.5.1.slim.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+	<!------------------>
+	<!--- Javascript --->
+	<!------------------>
+	<script>
+	
+        ////////////////
+        // Parameters //
+        ////////////////
+        
+        var DEV_MODE = false;
+        
+        /////////////
+        // Classes //
+        /////////////
+        
+        class Code
+        {
+            constructor(data)
+            {
+                // initialize
+                this.card;
+                this.banner;
+                // assign parameters
+                this.id = data["id"];
+                this.category = data["category"];
+                this.title = data["title"];
+                this.overview = data["overview"];
+                this.problem = data["problem"];
+                this.solution = data["solution"];
+                this.lessons = data["lessons"];
+                this.links = data["links"];
+                this.tags = data["tags"];
+                this.images = data["images"];
+            }
+        }
+        
+        class CodeCategory
+        {
+            constructor(name)
+            {
+                // initialize
+                this.codes = [];
+                this.category;
+                // assign parameters
+                this.name = name;
+            }
+        }
+    
+        ////////////////////////
+        // Methods: Factories //
+        ////////////////////////
+        
+        function buildCategory(codeCategory)
+        {
+            // category
+            var c = document.createElement("div");
+            c.classList.add("showcase-code-category");
+            // category title
+            var ct = document.createElement("div");
+            ct.classList.add("showcase-code-category-title");
+            c.appendChild(ct);
+            // category title header
+            var cth = document.createElement("h1");
+            cth.classList.add("color-accent");
+            cth.classList.add("color-text");
+            cth.appendChild(document.createTextNode(codeCategory.name));
+            ct.appendChild(cth);
+            // category cards
+            var cc = document.createElement("div");
+            cc.classList.add("showcase-code-category-cards");
+            cc.classList.add("color-lv0");
+            cc.classList.add("icon-tiles");
+            c.appendChild(cc);
+            // category cards row
+            var ccr = document.createElement("div");
+            ccr.classList.add("row");
+            ccr.classList.add("justify-content-left");
+            cc.appendChild(ccr);
+            // done
+            return c;
+        }
+        
+        function buildCard(code)
+        {
+            // card
+            var c = document.createElement("div");
+            c.classList.add("card");
+            c.classList.add("code-card");
+            c.classList.add("color-lv1");
+            // card tabs
+            var ct = document.createElement("div");
+            ct.classList.add("code-tabs");
+            c.appendChild(ct);
+            // card tabs tab
+            for (var i = 0; i < 5; ++i)
+            {
+                // card tabs tab content
+                var ctt = document.createElement("div");
+                ctt.classList.add("code-tab");
+                if (i == 0)
+                {
+                    ctt.classList.add("color-accent");
+                    ctt.classList.add("selected");
+                }
+                else
+                {
+                    ctt.classList.add("color-lv2");
+                }
+                ct.appendChild(ctt);
+                // make tab icon
+                var ctti = document.createElement("div");
+                ctt.appendChild(ctti);
+                // tab specific configs
+                if (i == 0)
+                {       
+                    // click event
+                    ctt.addEventListener("click", function()
+                    {
+                        // update banner
+                        code.banner.src = "projects/" + code.id + "/" + code.images[0 % code.images.length];
+                        // update content
+                        updateCodeContent(c, code.title, code.overview);
+                        updateCodeTabs(c, 0);
+                        
+                    });
+                    // tab icon
+                    ctti.classList.add("icon-tab-overview");
+                }
+                else if (i == 1)
+                {       
+                    // click event
+                    ctt.addEventListener("click", function()
+                    {
+                        // update banner
+                        code.banner.src = "projects/" + code.id + "/" + code.images[1 % code.images.length];
+                        // update content
+                        updateCodeContent(c, "Problem Statement", code.problem);
+                        updateCodeTabs(c, 1);
+                    });
+                    // tab icon
+                    ctti.classList.add("icon-tab-problem");
+                }
+                else if (i == 2)
+                {       
+                    // click event
+                    ctt.addEventListener("click", function()
+                    {
+                        // update banner
+                        code.banner.src = "projects/" + code.id + "/" + code.images[2 % code.images.length];
+                        // update content
+                        updateCodeContent(c, "Solution", code.solution);
+                        updateCodeTabs(c, 2);
+                    });
+                    // tab icon
+                    ctti.classList.add("icon-tab-solution");
+                }
+                else if (i == 3)
+                {       
+                    // click event
+                    ctt.addEventListener("click", function()
+                    {
+                        // update banner
+                        code.banner.src = "projects/" + code.id + "/" + code.images[3 % code.images.length];
+                        // update content
+                        updateCodeContent(c, "Lessons Learned", code.lessons);
+                        updateCodeTabs(c, 3);
+                    });
+                    // tab icon
+                    ctti.classList.add("icon-tab-lessons");
+                }
+                else if (i == 4)
+                {       
+                    // click event
+                    ctt.addEventListener("click", function()
+                    {
+                        // update banner
+                        code.banner.src = "projects/" + code.id + "/" + code.images[4 % code.images.length];
+                        // update content
+                        updateCodeContentLinks(c, "Links", code.links);
+                        updateCodeTabs(c, 4);
+                    });
+                    // tab icon
+                    ctti.classList.add("icon-tab-links");
+                }
+            }
+            // image banner
+            var ci = document.createElement("img");
+            ci.classList.add("code-banner");
+            ci.src = "projects/" + code.id + "/" + code.images[0 % code.images.length];
+            c.append(ci);
+            // code body
+            var cb = document.createElement("div");
+            cb.classList.add("code-body");
+            c.appendChild(cb);
+            // code body title
+            var cbt = document.createElement("div");
+            cbt.classList.add("code-title");
+            cbt.classList.add("scroll-fix");
+            cbt.appendChild(document.createTextNode(code.title));
+            cb.appendChild(cbt);
+            // code body text
+            var cbx = document.createElement("div");
+            cbx.classList.add("code-text");
+            cbx.appendChild(document.createTextNode(code.overview));
+            cb.appendChild(cbx);
+            // code body footer
+            var cbf = document.createElement("div");
+            cbf.classList.add("code-footer");
+            cbf.classList.add("scroll-fix");
+            cbf.classList.add("color-lv1");
+            cb.appendChild(cbf);
+            // code body footer tags
+            for (var i = 0; i < code.tags.length; i++)
+            {
+                var cbft = document.createElement("a");
+                cbft.classList.add("color-accent");
+                cbft.classList.add("color-text");
+                cbft.appendChild(document.createTextNode(code.tags[i]));
+                cbf.appendChild(cbft);
+            }
+            // done
+            return c;
+        }
+        
+        /////////////////
+        // Methods: UI //
+        /////////////////
+        
+		function updateUI()
+		{
+            // fix: row width
+            for(key in codes_categories)
+            {   
+                var container = codes_categories[key].category.getElementsByClassName("row")[0];
+                container.style.width = "100%";
+                var cardWidth = 350 + 10 + 10;
+                var capacity = Math.floor(container.clientWidth / cardWidth);   
+                container.style.width = Math.max(cardWidth, (capacity * cardWidth)) + "px";   
+            }
+            
+            // responsive: banner
+            var banner = document.getElementById("banner");
+            var bannerHeight = Math.min(650, banner.clientWidth * 0.5625);
+            banner.style.height = bannerHeight + "px";
+            
+            // responsive: banner->showcase
+            var showcase = document.getElementById("showcases");
+            showcase.style.marginTop = banner.clientHeight + "px";
+		}
+        
+        function updateCategories()
+        {
+            /*
+            var navbar = document.getElementById("xxx");
+            var navbarSection = document.getElementById("showcase-code");
+            
+            var rect = navbarSection.getBoundingClientRect();
+            
+            if (rect.top < 50)
+            {
+                navbar.classList.add("sticky")
+                navbarSection.style.paddingTop = "50px";
+            }
+            else
+            {
+                navbar.classList.remove("sticky");
+                navbarSection.style.paddingTop = "0px";
+            }
+            */
+        }
+        
+        function updateCodeContent(card, title, text)
+        {
+            // title
+            card.getElementsByClassName("code-title")[0].innerHTML = title;
+            // clear body content
+            var body = card.getElementsByClassName("code-text")[0];
+            while (body.firstChild)
+            {
+                body.removeChild(body.lastChild);
+            }
+            // set body content
+            body.innerHTML = text;
+        }
+        
+        function updateCodeContentLinks(card, title, links)
+        {
+            // title
+            card.getElementsByClassName("code-title")[0].innerHTML = title;
+            // clear body content
+            var body = card.getElementsByClassName("code-text")[0];
+            while (body.firstChild)
+            {
+                body.removeChild(body.lastChild);
+            }            
+            body.innerHTML = "";
+            // links
+            for (var i = 0; i < links.length; i++)
+            {
+                var a = document.createElement("a");
+                a.href = links[i][1];
+                a.appendChild(document.createTextNode(links[i][0]));
+                body.appendChild(a);
+            }
+        }
+        
+        function updateCodeTabs(card, index)
+        {
+            var tabs = card.getElementsByClassName("code-tab");
+            for (var i = 0; i < tabs.length; i++)
+            {
+                if (i == index)
+                {
+                    tabs[i].classList.add("color-accent");
+                    tabs[i].classList.add("selected");
+                    tabs[i].classList.remove("color-lv2");
+                }
+                else
+                {
+                    tabs[i].classList.remove("color-accent");
+                    tabs[i].classList.remove("selected");
+                    tabs[i].classList.add("color-lv2");
+                }
+            }
+        }
+        
+        ///////////////////////
+        // Initialize : Code //
+        ///////////////////////
+        
+        // initialize
+        codes = []
+        codes_categories = {}
+        
+        /////////////////////////
+        // Data Loading : Code //
+        /////////////////////////
+        
+        //// GAMES ////
+        
+        codes.push(new Code({   "id"        : "2014-Games-Checkers",
+                                "category"  : "Games", 
+                                "title"     : "Checkers", 
+                                "overview"  : "An animated Checkers game built using the Java Swing Framework. This game includes custom artwork and animations for the game pieces. It aslo includes a basic AI.", 
+                                "problem"   : "The challenge in this game was in trying to figure out how animations would be supported when using Swing. I really wanted animations!", 
+                                "solution"  : "This solution was to use a Swing Timer, coupled with a paint method that worked on the Graphics object of the window.", 
+                                "lessons"   : "I learned many important game design patterns in this project, including the pattern for a render-loop and a centralised asset manager.",
+                                "links"     : [["Github", "https://github.com/Tashiv/2014-Games-Checkers"], ["Demo", "https://github.com/Tashiv/2014-Games-Checkers/releases/tag/v1"]], 
+                                "tags"      : ["2014", "Games", "Java"],
+                                "images"    : ["game.gif", "crown.gif", "menu.gif", "victory.gif"] }));
+        
+        codes.push(new Code({   "id"        : "2016-Games-AlienWarfare",
+                                "category"  : "Games", 
+                                "title"     : "AlienWarfare", 
+                                "overview"  : "A 3D game in which you destroy alien artifacts as quickly as you can. Built to investigate how Unity3D works.", 
+                                "problem"   : "What does it take to build a game in Unity3D? More specifically, how does Unity save me time and effort.", 
+                                "solution"  : "This game includes multiple camera views, custom 3D animations, custom 3D assets and a basic world.", 
+                                "lessons"   : "Before this project, I preferred building games from scratch (i.e. no game engines). This project demonstrated how much time when you don't have to implement the basics like asset load, view rendering,...",
+                                "links"     : [["Github", "https://github.com/Tashiv/2016-Games-AlienWarfare"], ["Demo", "https://github.com/Tashiv/2016-Games-AlienWarfare/releases/tag/v1"]], 
+                                "tags"      : ["2016", "Games", "C#", "Unity3D"],
+                                "images"    : ["shooting.gif", "3person.png", "1person.png", "world.png"] }));
+        
+        //// PRINCIPLES ////
+        
+        codes.push(new Code({   "id"        : "2016-Principles-OpenGLPlanet",
+                                "category"  : "Principles", 
+                                "title"     : "OpenGL Planet", 
+                                "overview"  : "First principles rendering done with OpenGL. This includes object loading, mesh rendering (Phong Model) and the advanced lighting technique called bump mapping.", 
+                                "problem"   : "What principles are behind basic 3D rendering and how much will I sweat finding out?", 
+                                "solution"  : "This programming showcases the various stages of rendering and includes the use of a vertex and fragment shaders.", 
+                                "lessons"   : "It was really interesting to see how normals can be used make to make a model appear more detailed, though the silhouette does give it away.",
+                                "links"     : [["Github", "https://github.com/Tashiv/2016-Principles-OpenGLPlanet"], ["Demo", "https://github.com/Tashiv/2016-Principles-OpenGLPlanet/releases/tag/v1"]], 
+                                "tags"      : ["2016", "Principles", "C++", "Graphics"],
+                                "images"    : ["bump.gif", "texture.gif", "surface.gif", "wire.gif"] }));
+        
+        //// RESEARCH ////
+        
+        codes.push(new Code({   "id"        : "2017-Research-UserModelling",
+                                "category"  : "Research", 
+                                "title"     : "Temporal User Modelling", 
+                                "overview"  : "This project is part of a larger project that aims to improve search results by factoring in the time that a user makes a search query. This part of the project processes queries in order to make a user model that is useful in filtering search results.", 
+                                "problem"   : "Search engines require that their search results be as relevant as possible in order to be able to fulfil a user's search needs. This is especially important given that users usually only inspect the first page worth of results.", 
+                                "solution"  : "A way to improve relevance is to build a temporal topic model that can be used to filter search queries. Consider a user being interested in 'java' coffee in the mornings and 'java' programming in the afternoon.", 
+                                "lessons"   : "It was really interesting to see how KL-divergence could be used to build a topic model based on a clustering-like approach. Please see the links section for the research findings.",
+                                "links"     : [["Research Paper","https://github.com/Tashiv/2017-Research-UserModelling/releases/download/v1/Web-Search.Personalization.Based.on.Time.and.Topic.-.Topic.Modelling.with.LDA.pdf"], ["Github", "https://github.com/Tashiv/2017-Research-UserModelling"], ["Project Website", "https://people.cs.uct.ac.za/~swptas001/TimeRank/index.html"]], 
+                                "tags"      : ["2017", "Research", "Python3", "Information Retrieval"],
+                                "images"    : ["solution.png", "demo.gif", "context.png"] }));
+        
+        //// SIMULATIONS ////
+        
+        codes.push(new Code({   "id"        : "2015-Simulation-GOLoad",
+                                "category"  : "Simulations", 
+                                "title"     : "GOLoad", 
+                                "overview"  : "This tool creates a synthetic load by simulating a game of life in which 'critters' compete for food. This is useful for testing cooling solutions.", 
+                                "problem"   : "This tool was created when I was busy creating a housing for a 2-unit raspberry pi cluster. This housing was built out a CD spindle and it had a fan attached to the bottom, but how effective is this solution?", 
+                                "solution"  : "This solution was to build a program that puts a load on the cpu so that it can generate some heat. This solution also correctly renders to terminal by including an interesting calibartion step.", 
+                                "lessons"   : "This was one of my first attempts at creating virtual life and truly got me interested in topics such as Conway's Game of Life.",
+                                "links"     : [["Github", "https://github.com/Tashiv/2015-Simulation-GOLoad"], ["Demo", "https://github.com/Tashiv/2015-Simulation-GOLoad/releases/tag/v1"]], 
+                                "tags"      : ["2015", "Simulation", "Java", "Artifical Life", "Benchmarks"],
+                                "images"    : ["running.gif"] }));
+        
+        //// UTILITIES ////
+        
+        codes.push(new Code({   "id"        : "2017-Utilities-MarkerGenerator",
+                                "category"  : "Utilities", 
+                                "title"     : "Marker Generator", 
+                                "overview"  : "This program deterministically generates high contrast surfaces for use in feature-point based computer vision applications.", 
+                                "problem"   : "During the course of my Masters studies, I needed to generate high-contrast surfaces for use in tracking applications.", 
+                                "solution"  : "This solution was to build a easy-to-use python script that generates these types of suraces automatically. The deterministic property of the tool help to support reproducible work.", 
+                                "lessons"   : "This tool taught me to use Python's Pillow library.",
+                                "links"     : [["Github", "https://github.com/Tashiv/2017-Utilities-MarkerGenerator"]], 
+                                "tags"      : ["2017", "Utilities", "Python3", "Graphics"],
+                                "images"    : ["a.png", "b.png", "c.png", "d.png"] }));
+        
+        //// Websites ////
+        
+        codes.push(new Code({   "id"        : "2021-Website-tashiv.com",
+                                "category"  : "Websites", 
+                                "title"     : "tashiv.com", 
+                                "overview"  : "A website for all my wonderful projects, one of which is this very website.", 
+                                "problem"   : "A CV does not have enough place for all my projects and animations do not work well on printed paper. What alternatives are there?", 
+                                "solution"  : "This solution was to create an interactive website that seperates model and view in order to make data capturing more easier.", 
+                                "lessons"   : "I learned a lot about creating dynamic DOM content using nothing but the basics (i.e. JS).",
+                                "links"     : [["Github", "https://github.com/Tashiv/2021-Website-tashiv.com"], ["Website", "https://www.tashiv.com"]], 
+                                "tags"      : ["2021", "Websites", "HTML", "Javascript", "CSS"],
+                                "images"    : ["header.jpg"] }));
+        
+        //////////////////////
+        // Initialize: Code //
+        //////////////////////
+        
+        // build category list
+        for (var i = 0; i < codes.length; i++)
+        {
+            if (codes[i].category in codes_categories == false)
+            {
+                codes_categories[codes[i].category] = new CodeCategory(codes[i].category);
+            }
+            codes_categories[codes[i].category].codes.push(codes[i]);
+        }
+        // connect to dom
+        var hShowcaseCode = document.getElementById("showcase-code");
+        // clear demo cards
+        if (!DEV_MODE)
+        {
+            while (hShowcaseCode.firstChild)
+            {
+                hShowcaseCode.removeChild(hShowcaseCode.lastChild);
+            }
+        }
+        // load cards based on date
+        for(key in codes_categories)
+        {
+            // build category
+            codes_categories[key].category = buildCategory(codes_categories[key])
+            // add to DOM
+            hShowcaseCode.appendChild(codes_categories[key].category);
+            // build child cards
+            for(var i = 0 ; i < codes_categories[key].codes.length ; i++)
+            {
+                // build card
+                codes_categories[key].codes[i].card = buildCard(codes_categories[key].codes[i]);
+                codes_categories[key].codes[i].banner = codes_categories[key].codes[i].card.getElementsByClassName("code-banner")[0]; 
+                // add to DOM
+                codes_categories[key].category.getElementsByClassName("row")[0].appendChild(codes_categories[key].codes[i].card);
+            }            
+        }
+            
+        ////////////
+        // Events //
+        ////////////
+		
+        // window initial load
+		window.onload = function()
+		{
+			updateUI();
+		};
+	
+        // window resize
+		window.onresize = function()
+		{
+			updateUI();
+		};
+        
+        // window scrolling
+        
+        window.onscroll = function()
+        {
+            updateCategories();
+        };
+        
+        // fix: horizontal scrolling for titles
+        var titles = document.getElementsByClassName("scroll-fix");
+        for (var i = 0; i < titles.length; i++)
+        {
+            const target = titles[i];
+            target.addEventListener('wheel', event =>
+            {
+                const left  = event.deltaY < 0 && target.scrollLeft > 0
+                const right = event.deltaY > 0 && target.scrollLeft < target.scrollWidth - target.clientWidth
+                if (left || right)
+                {
+                    event.preventDefault()
+                    target.scrollLeft += event.deltaY
+                }   
+            });
+        }
+        
+        // page click: designer
+        document.getElementById("page-designer").addEventListener("click", function()
+        {
+            alert("Coming Soon");
+        });
+        
+        // page click: photographer
+        document.getElementById("page-photographer").addEventListener("click", function()
+        {
+            window.open("https://www.instagram.com/tash.redux/", '_blank')
+        });
+        
+	</script>
 </html>
