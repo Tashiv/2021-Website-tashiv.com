@@ -47,64 +47,7 @@
             <!---------------------->
             <!--- Showcase: Code --->
             <!---------------------->
-            <div id="showcase-code" class="showcase-code">
-                
-                <!--------------------->
-                <!--- Code Category --->
-                <!--------------------->
-                <div class="showcase-code-category">
-                    <!---------------------->
-                    <!--- Category Title --->
-                    <!---------------------->
-                    <div class="showcase-code-category-title">
-                        <h1 class="color-accent color-text">
-                            Simulations
-                        </h1>
-                    </div>
-                    <!------------------------->
-                    <!--- Category Projects --->
-                    <!------------------------->
-                    <div class="showcase-code-category-cards color-lv0 icon-tiles">
-                        <div class="row justify-content-left">    
-                            <div class="card code-card color-lv1">
-                                <div class="code-tabs">
-                                    <div class="code-tab selected color-accent">
-                                        <div class="icon-tab-overview"></div>
-                                    </div>
-                                    <div class="code-tab color-lv2">
-                                        <div class="icon-tab-problem"></div>
-                                    </div>
-                                    <div class="code-tab color-lv2">
-                                        <div class="icon-tab-solution"></div>
-                                    </div>
-                                    <div class="code-tab color-lv2">
-                                        <div class="icon-tab-lessons"></div>
-                                    </div>
-                                    <div class="code-tab color-lv2">
-                                        <div class="icon-tab-links"></div>
-                                    </div>
-                                </div>
-                                <img class="code-banner" src="images/header-code.jpg">
-                                <div class="code-body">
-                                    <div class="code-title scroll-fix">
-                                        Game of Life
-                                    </div>
-                                    <div class="code-text">
-                                        This is text
-                                        <br/>
-                                        <a href="#">test</a>
-                                    </div>    
-                                    <div class="code-footer scroll-fix color-lv1">
-                                        <a class="color-accent color-text">DEV</a>
-                                        <a class="color-accent color-text">2019</a>
-                                        <a class="color-accent color-text">Android</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="showcase-code" class="showcase-code"></div>
         </div>
 	</body>
 	<!--------------------------->
@@ -116,12 +59,6 @@
 	<!--- Javascript --->
 	<!------------------>
 	<script>
-	
-        ////////////////
-        // Parameters //
-        ////////////////
-        
-        var DEV_MODE = false;
         
         /////////////
         // Classes //
@@ -134,6 +71,8 @@
                 // initialize
                 this.card;
                 this.banner;
+                this.ready = -1;
+                this.imageIndex = 0;
                 // assign parameters
                 this.id = data["id"];
                 this.category = data["category"];
@@ -145,6 +84,20 @@
                 this.links = data["links"];
                 this.tags = data["tags"];
                 this.images = data["images"];
+            }
+            
+            updateImage()
+            {
+                if (this.ready >= this.imageIndex)
+                {
+                    this.banner.src = "projects/" + this.id + "/" + this.images[this.imageIndex % this.images.length];
+                }
+            }
+            
+            updateImageIndex(index)
+            {
+                this.imageIndex = index;
+                this.updateImage();
             }
         }
         
@@ -231,7 +184,7 @@
                     ctt.addEventListener("click", function()
                     {
                         // update banner
-                        code.banner.src = "projects/" + code.id + "/" + code.images[0 % code.images.length];
+                        code.updateImageIndex(0);
                         // update content
                         updateCodeContent(c, code.title, code.overview);
                         updateCodeTabs(c, 0);
@@ -246,7 +199,7 @@
                     ctt.addEventListener("click", function()
                     {
                         // update banner
-                        code.banner.src = "projects/" + code.id + "/" + code.images[1 % code.images.length];
+                        code.updateImageIndex(1);
                         // update content
                         updateCodeContent(c, "Problem Statement", code.problem);
                         updateCodeTabs(c, 1);
@@ -260,7 +213,7 @@
                     ctt.addEventListener("click", function()
                     {
                         // update banner
-                        code.banner.src = "projects/" + code.id + "/" + code.images[2 % code.images.length];
+                        code.updateImageIndex(2);
                         // update content
                         updateCodeContent(c, "Solution", code.solution);
                         updateCodeTabs(c, 2);
@@ -274,7 +227,7 @@
                     ctt.addEventListener("click", function()
                     {
                         // update banner
-                        code.banner.src = "projects/" + code.id + "/" + code.images[3 % code.images.length];
+                        code.updateImageIndex(3);
                         // update content
                         updateCodeContent(c, "Lessons Learned", code.lessons);
                         updateCodeTabs(c, 3);
@@ -288,7 +241,7 @@
                     ctt.addEventListener("click", function()
                     {
                         // update banner
-                        code.banner.src = "projects/" + code.id + "/" + code.images[4 % code.images.length];
+                        code.updateImageIndex(4);
                         // update content
                         updateCodeContentLinks(c, "Links", code.links);
                         updateCodeTabs(c, 4);
@@ -300,7 +253,7 @@
             // image banner
             var ci = document.createElement("img");
             ci.classList.add("code-banner");
-            ci.src = "projects/" + code.id + "/" + code.images[0 % code.images.length];
+            ci.src = "images/loader.gif";
             c.append(ci);
             // code body
             var cb = document.createElement("div");
@@ -438,13 +391,39 @@
             }
         }
         
+        function loadNextImage()
+        {
+            // increment image
+            code_images_set_image += 1;
+            codes[code_images_set].ready += 1;
+            codes[code_images_set].updateImage();
+            // check if end of set
+            if (code_images_set_image % code_images[code_images_set].length == 0) // case: done loading set
+            {
+                // next set
+                code_images_set_image = 0;
+                code_images_set += 1;
+            }
+            // load next image
+            if (code_images_set < code_images.length)
+            {
+                code_images_temp.src = "projects/" + codes[code_images_set].id + "/" + code_images[code_images_set][code_images_set_image];
+                code_images_temp.onload = loadNextImage;
+            }
+        }
+        
         ///////////////////////
         // Initialize : Code //
         ///////////////////////
         
         // initialize
-        codes = []
-        codes_categories = {}
+        var codes = [];
+        var codes_categories = {};
+        // caching
+        var code_images = [];
+        var code_images_set = 0;
+        var code_images_set_image = 0;
+        var code_images_temp = new Image();
         
         /////////////////////////
         // Data Loading : Code //
@@ -543,25 +522,23 @@
         // Initialize: Code //
         //////////////////////
         
-        // build category list
+        // preprocess data
         for (var i = 0; i < codes.length; i++)
         {
+            // check if new categories
             if (codes[i].category in codes_categories == false)
             {
                 codes_categories[codes[i].category] = new CodeCategory(codes[i].category);
             }
+            // add to related category list
             codes_categories[codes[i].category].codes.push(codes[i]);
+            // store images
+            code_images.push(codes[i].images);
         }
+        
         // connect to dom
         var hShowcaseCode = document.getElementById("showcase-code");
-        // clear demo cards
-        if (!DEV_MODE)
-        {
-            while (hShowcaseCode.firstChild)
-            {
-                hShowcaseCode.removeChild(hShowcaseCode.lastChild);
-            }
-        }
+        
         // load cards based on date
         for(key in codes_categories)
         {
@@ -631,6 +608,14 @@
         {
             window.open("https://www.instagram.com/tash.redux/", '_blank')
         });
+        
+        //////////
+        // Done //
+        //////////
+        
+        // start image caching
+        code_images_temp.src = "projects/" + codes[code_images_set].id + "/" + code_images[code_images_set][code_images_set_image];
+        code_images_temp.onload = loadNextImage;
         
 	</script>
 </html>
