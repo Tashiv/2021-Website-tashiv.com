@@ -118,6 +118,30 @@
 }
 
 /***************
+ ** Bootstrap **
+ ***************/
+
+.tooltip-inner
+{
+    background: #d0d0d0;
+    color: rgb(0, 0, 0, .8);
+    font-weight: 700;
+    font-size: 14px;
+    color: #272727;
+    border-radius: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border: 1px solid #bfbfbf;
+}
+
+.arrow::before
+{
+    border-left-color:#bfbfbf !important;
+}
+
+/***************
  ** Scrollbar **
  ***************/
 

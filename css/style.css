@@ -99,6 +99,11 @@ body::-webkit-scrollbar
 	margin-right: auto;
 }
 
+.tooltip.show
+{
+    opacity: 0.95;
+}
+
 /************
  ** Navbar **
  ************/
@@ -256,8 +261,8 @@ body::-webkit-scrollbar
 
 .code-tab.selected
 {
-	width: 38px;
-    margin-left: 0px;
+	width: 42px;
+    margin-left: -4px;
 }
 
 .code-tab:hover

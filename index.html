@@ -54,6 +54,7 @@
 	<!--- Javascript Libraries--->
 	<!--------------------------->
 	<script type="text/javascript" src="js/jquery/jquery-3.5.1.slim.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap/popper.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
 	<!------------------>
 	<!--- Javascript --->
@@ -96,7 +97,7 @@
             
             updateImageIndex(index)
             {
-                this.imageIndex = index;
+                this.imageIndex = index % this.images.length;
                 this.updateImage();
             }
         }
@@ -164,6 +165,9 @@
                 // card tabs tab content
                 var ctt = document.createElement("div");
                 ctt.classList.add("code-tab");
+                ctt.setAttribute("data-toggle", "tooltip");
+                ctt.setAttribute("data-placement", "left");
+                // show selection
                 if (i == 0)
                 {
                     ctt.classList.add("color-accent");
@@ -180,6 +184,8 @@
                 // tab specific configs
                 if (i == 0)
                 {       
+                    // tooltip
+                    ctt.setAttribute("title", "Overview");
                     // click event
                     ctt.addEventListener("click", function()
                     {
@@ -195,6 +201,8 @@
                 }
                 else if (i == 1)
                 {       
+                    // tooltip
+                    ctt.setAttribute("title", "Problem");
                     // click event
                     ctt.addEventListener("click", function()
                     {
@@ -209,6 +217,8 @@
                 }
                 else if (i == 2)
                 {       
+                    // tooltip
+                    ctt.setAttribute("title", "Solution");
                     // click event
                     ctt.addEventListener("click", function()
                     {
@@ -223,6 +233,8 @@
                 }
                 else if (i == 3)
                 {       
+                    // tooltip
+                    ctt.setAttribute("title", "Lessons");
                     // click event
                     ctt.addEventListener("click", function()
                     {
@@ -237,6 +249,8 @@
                 }
                 else if (i == 4)
                 {       
+                    // tooltip
+                    ctt.setAttribute("title", "Links");
                     // click event
                     ctt.addEventListener("click", function()
                     {
@@ -557,6 +571,9 @@
             }            
         }
             
+        // init tooltips
+        $(function () {$('[data-toggle="tooltip"]').tooltip()});
+        
         ////////////
         // Events //
         ////////////
